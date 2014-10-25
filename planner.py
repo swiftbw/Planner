@@ -1,4 +1,4 @@
-from Tkinter import Tk, Frame, Menu, Toplevel, Listbox
+from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel
 from person import Resources, Person
 
 _plannerDataDir = "/users/swiftb/data/Planner/"
@@ -42,6 +42,11 @@ class Planner(Frame):
                   resources = self._resources.getResources()
                   for i in resources:
                         lb.insert(END, i[0])
+                  bt = Button(self._resourcesWindow, text="New Resource", command=self.newResource)
+                  bt.pack()
+      def newResource(self):
+            print "Hello World!"
+                  
 def main():
       root = Tk()
       root.geometry("250x150+300+300")
