@@ -78,7 +78,12 @@ class Planner(Frame):
       def onNewResourceSubmit(self):
             res = Person("0, " + self._fnEntry.get() + ", " + self._lnEntry.get() + ", " + Location(self._locEntry.get()).get())
             self._resources.add(res)
-                         
+
+            self._newResourceWindow.destroy()
+            self._newResourceWindow = None
+            self._resourcesWindow.destroy()
+            self._resourcesWindow = None
+            self.onResources()             
             return
                   
 def main():
