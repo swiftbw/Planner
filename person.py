@@ -19,10 +19,10 @@ class Person:
 
       def getOutStr(self):
             print "UID = %d", self._uid
-            print "First Name = %s", self._firstName
-            print "Last Name = %s", self._lastName
-            print "Location = %s", self._location.get()
-            return str.format("%d,%s,%s,%s", self._uid, self._firstName, self._lastName, self._location.get())
+            print "First Name = %s" % self._firstName
+            print "Last Name = %s" % self._lastName
+            print "Location = %s" % self._location.get()
+            return "%d,%s,%s,%s" % (self._uid, self._firstName, self._lastName, self._location.get())
 
       def isValid(self):
             if self._uid == 0 or self._firstName == "" or self._lastName == "" or self._location.get() == "UNK":
@@ -32,6 +32,7 @@ class Person:
              
       def write(self, filehandle):
             outstr = self.getOutStr()
+            print outstr
             filehandle.write(outstr+"\n")
             return
 
@@ -49,7 +50,8 @@ class Resources:
 
                   for i in resources:
                         person = Person(i)
-                        self._resources.add(person)
+                        self.add(person)
+                        
             except IOError as e:
                   print "I/O error({0}): {1}".format(e.errno, e.strerror)
                   print "Unable to open %s for reading.", filestr
@@ -83,6 +85,6 @@ class Resources:
       def getResources(self):
             ress = []
             for i in self._resources:
-                  ress.append(i.getName(), i)
+                  ress.append((i.getFullName(), i))
 
             return ress
