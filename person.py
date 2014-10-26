@@ -10,32 +10,35 @@ class Person:
       def __init__(self, instr):
             if instr == None:
                   return
-            personStrs = split(instr,",")
+            personStrs = instr.split(",")
             
-            _uid = personStrs[0]
-            _firstName = personStrs[1]
-            _lastName = personStrs[2]
-            _role = Location(personStrs[3])
+            self._uid = personStrs[0]
+            self._firstName = personStrs[1]
+            self._lastName = personStrs[2]
+            self._location = Location(personStrs[3])
 
       def getOutStr(self):
-            return str.format("%d,%s,%s,%s", _uid, _firstName, _lastName, _role.get())
+            print "UID = %d", self._uid
+            print "First Name = %s", self._firstName
+            print "Last Name = %s", self._lastName
+            print "Location = %s", self._location.get()
+            return str.format("%d,%s,%s,%s", self._uid, self._firstName, self._lastName, self._location.get())
 
       def isValid(self):
-            if _uid == 0 or _firstName == "" or _lastName == "" or _role.get() == "UNK":
+            if self._uid == 0 or self._firstName == "" or self._lastName == "" or self._location.get() == "UNK":
                   return False
             else:
                   return True
              
       def write(self, filehandle):
-            outstr = getOutStr()
+            outstr = self.getOutStr()
             filehandle.write(outstr+"\n")
             return
 
-      def getName():
-            return _lastName + ", " + _firstName
+      def getFullName(self):
+            return self._lastName + ", " + self._firstName
 
 class Resources:
-
       def __init__(self, filestr = ""):
             self._filename = filestr
             self._resources = []
@@ -63,14 +66,20 @@ class Resources:
                   print "Unable to open %s for writing.", filestr
                   
       def add(self, resource):
-            self.checkNameExists(resource)
-            for i in self._resources:
-                  if resource._firstName == i._firstName and resource._lastName == i._lastName:
-                        return
-            resource._uid = len(self._resources+1)
+            if self.checkNameExists(resource) == True:
+                  print "Person already exists!"
+                  return
+            else:
+                  resource._uid = len(self._resources)+1
+                  self._resources.append(resource)
             
-            self._resources.append(resource)
-          
+      def checkNameExists(self, resource):
+            for i in self._resources:
+                  if i.getFullName() == resource.getFullName():
+                        return True
+
+            return False
+
       def getResources(self):
             ress = []
             for i in self._resources:
