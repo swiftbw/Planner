@@ -44,6 +44,8 @@ class Planner(Frame):
       def onResources(self):
             if self._resourcesWindow == None:
                   self._resourcesWindow = Toplevel(self._parent)
+                  self._resourcesWindow.protocol('WM_DELETE_WINDOW', self.destroyResourcesWindow)
+
                   lb = Listbox(self._resourcesWindow)
                   lb.pack()
                   resources = self._resources.getResources()
@@ -51,10 +53,15 @@ class Planner(Frame):
                         lb.insert(END, i[0])
                   bt = Button(self._resourcesWindow, text="New Resource", command=self.newResource)
                   bt.pack()
+      def destroyResourcesWindow(self):
+            self._resourcesWindow.destroy()
+            self._resourcesWindow = None
+              
       def newResource(self):
             print "Hello World!"
             if self._newResourceWindow == None:
                   self._newResourceWindow = Toplevel(self._resourcesWindow)
+                  self._newResourceWindow.protocol('WM_DELETE_WINDOW', self.destroyNewResourceWindow)
                   self._fnPanel = PanedWindow(self._newResourceWindow)
                   self._lnPanel = PanedWindow(self._newResourceWindow)
                   self._locPanel = PanedWindow(self._newResourceWindow)
@@ -75,6 +82,9 @@ class Planner(Frame):
                   self._locPanel.pack(side=TOP)
                   subBt = Button(self._newResourceWindow, text="Submit", command=self.onNewResourceSubmit)
                   subBt.pack(side=TOP)
+      def destroyNewResourceWindow(self):
+            self._newResourceWindow.destroy()
+            self._newResourceWindow = None
       def onNewResourceSubmit(self):
             res = Person("0, " + self._fnEntry.get() + ", " + self._lnEntry.get() + ", " + Location(self._locEntry.get()).get())
             self._resources.add(res)
