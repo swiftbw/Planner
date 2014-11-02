@@ -1,5 +1,5 @@
 class NameValueElement(PanedWindow):
-      def __init__(self, name, value):
+      def __init__(self, name):
             PanedWindow.__init__(self)
             self._label = Label(self, text=name)
             self._label.pack(side=LEFT)

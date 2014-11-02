@@ -62,8 +62,8 @@ class Planner(Frame):
             if self._newResourceWindow == None:
                   self._newResourceWindow = Toplevel(self._resourcesWindow)
                   self._newResourceWindow.protocol('WM_DELETE_WINDOW', self.destroyNewResourceWindow)
-                  self._fnPanel = PanedWindow(self._newResourceWindow)
-                  self._lnPanel = PanedWindow(self._newResourceWindow)
+                  self._fnPanel = NameValueElement((self, "First Name")
+                  self._lnPanel = NameValueElement(self, "Last Name")
                   self._locPanel = PanedWindow(self._newResourceWindow)
                   fnLabel = Label(self._fnPanel, text="First Name")
                   fnLabel.pack(side=LEFT)
