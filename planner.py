@@ -1,5 +1,6 @@
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END
-from person import Resources, Person
+from person import Person
+from resources import Resources
 from location import Location
 from inputpanel import InputPanel
 
