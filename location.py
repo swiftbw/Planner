@@ -7,10 +7,10 @@ class Location:
                   self._location = locstr
 
       def isValid(self, instr):
-            print instr
-            print "Instr = " + instr
+#            print instr
+#            print "Instr = " + instr
             for i in Location._validLocations:
-                  print i
+#                  print i
                   if i == instr:
                         return True
             else:
@@ -23,5 +23,19 @@ class Location:
       def get(self):
             return self._location
 
+def main():
+      loc = Location("NYC")
+      print loc.get()
+
+      loc2 = Location("QWE")
+
+      print loc2.get()
+      loc2.set("NYC")
+      print loc2.get()
+
+            
+if __name__ == '__main__':
+      main()
+      
 
     
