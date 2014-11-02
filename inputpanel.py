@@ -1,4 +1,4 @@
-from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END
+from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
 #from person import Resources, Person
 #from location import Location
 
@@ -6,15 +6,18 @@ class InputPanel(Toplevel):
       def __init__(self, parent, keyvalues, onSubmitcallback):
             Toplevel.__init__(self, parent)   
             self.protocol('WM_DELETE_WINDOW', self.destroy)
-            self._kvpanel = {"":""}
+            self._kvpanel = {}
             self.onsubmitcallback = onSubmitcallback
-
+            self._rdict = {}
             for i in keyvalues.keys():
                   print i
                   self._kvpanel[i] = PanedWindow(self)
                   label = Label(self._kvpanel[i], text=i)
                   label.pack(side=LEFT)
-                  entry = Entry(self._kvpanel[i], textvariable = keyvalues[i])
+                  v = StringVar()
+                  entry = Entry(self._kvpanel[i], textvariable = v)
+                  v.set(keyvalues[i])
+                  self._rdict[i] = v
                   entry.pack(side=RIGHT)
                   self._kvpanel[i].pack(side=TOP)
 
@@ -23,7 +26,10 @@ class InputPanel(Toplevel):
       def destroy(self):
             Toplevel.destroy(self)
       def onSubmit(self):
-            self.onsubmitcallback(self, {"asdf":"asdf","qwer":"qwer"})
+            keyvalues = {}
+            for i in self._rdict.keys():
+                  keyvalues[i] = self._rdict[i].get()
+            self.onsubmitcallback(self, keyvalues)
             
 
 def main():

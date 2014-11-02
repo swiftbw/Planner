@@ -1,6 +1,7 @@
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END
 from person import Resources, Person
 from location import Location
+from inputpanel import InputPanel
 
 _plannerDataDir = "/users/swiftb/data/Planner/"
 _ResourcesFileName = "PlannerResources.txt"
@@ -13,7 +14,6 @@ class Planner(Frame):
             Frame.__init__(self, parent)   
             self._parent = parent
             self._resourcesWindow = None
-            self._newResourceWindow = None
             self.loadResources()
             #self.loadAllocations()
             self.initUI()
@@ -59,40 +59,11 @@ class Planner(Frame):
               
       def newResource(self):
             print "Hello World!"
-            if self._newResourceWindow == None:
-                  self._newResourceWindow = Toplevel(self._resourcesWindow)
-                  self._newResourceWindow.protocol('WM_DELETE_WINDOW', self.destroyNewResourceWindow)
-                  self._fnPanel = NameValueElement((self, "First Name")
-                  self._lnPanel = NameValueElement(self, "Last Name")
-                  self._locPanel = PanedWindow(self._newResourceWindow)
-                  fnLabel = Label(self._fnPanel, text="First Name")
-                  fnLabel.pack(side=LEFT)
-                  self._fnEntry = Entry(self._fnPanel)
-                  self._fnEntry.pack(side=RIGHT)
-                  self._fnPanel.pack(side=TOP)
-                  lnLabel = Label(self._lnPanel, text="Last Name")
-                  lnLabel.pack(side=LEFT)
-                  self._lnEntry = Entry(self._lnPanel)
-                  self._lnEntry.pack(side=RIGHT)
-                  self._lnPanel.pack(side=TOP)
-                  locLabel = Label(self._locPanel, text="Location")
-                  locLabel.pack(side=LEFT)
-                  self._locEntry = Entry(self._locPanel)
-                  self._locEntry.pack(side=RIGHT)
-                  self._locPanel.pack(side=TOP)
-                  subBt = Button(self._newResourceWindow, text="Submit", command=self.onNewResourceSubmit)
-                  subBt.pack(side=TOP)
-      def destroyNewResourceWindow(self):
-            self._newResourceWindow.destroy()
-            self._newResourceWindow = None
-      def onNewResourceSubmit(self):
-            res = Person("0, " + self._fnEntry.get() + ", " + self._lnEntry.get() + ", " + Location(self._locEntry.get()).get())
+            self._newResourcePanel = InputPanel(self._parent, {"First Name":"","Last Name":"","Location":""}, self.processNewResources)
+      def processNewResources(self, panel, tdict):
+            res = Person("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
             self._resources.add(res)
-
-            self._newResourceWindow.destroy()
-            self._newResourceWindow = None
-            self._resourcesWindow.destroy()
-            self._resourcesWindow = None
+            panel.destroy()
             self.onResources()             
             return
                   

@@ -1,5 +1,5 @@
 class Location:
-      _validLocations = ["UNK", "CHI", "NY", "LDN", "CHE", "HKG", "TKY"]
+      _validLocations = ["UNK", "CHI", "NYC", "LDN", "CHE", "HKG", "TKY"]
 
       def __init__(self, locstr = "UNK"):
             self._location = "UNK"
@@ -8,7 +8,9 @@ class Location:
 
       def isValid(self, instr):
             print instr
+            print "Instr = " + instr
             for i in Location._validLocations:
+                  print i
                   if i == instr:
                         return True
             else:
