@@ -3,6 +3,7 @@ from person import Person
 from resources import Resources
 from location import Location
 from inputpanel import InputPanel
+from selectionlistbox import SelectionListbox
 
 _plannerDataDir = "/users/swiftb/data/Planner/"
 _ResourcesFileName = "PlannerResources.txt"
