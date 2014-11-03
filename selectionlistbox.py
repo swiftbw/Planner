@@ -54,6 +54,9 @@ def ModifyCallback(key):
 
 def DeleteCallback(key):
       print "Delete"
+      l.remove(key)
+      app.destroy()
+      app = SelectionListbox(root, l, CreateCallback, ModifyCallback, DeleteCallback)
 
 if __name__ == '__main__':
       main()
