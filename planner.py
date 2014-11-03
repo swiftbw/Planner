@@ -49,7 +49,7 @@ class Planner(Frame):
 
                   lb = Listbox(self._resourcesWindow)
                   lb.pack()
-                  resources = self._resources.getResources()
+                  resources = self._resources.getResourcesAsDict()
                   for i in resources:
                         lb.insert(END, i[0])
                   bt = Button(self._resourcesWindow, text="New Resource", command=self.newResource)

@@ -43,7 +43,7 @@ class Resources:
 
             return False
 
-      def getResources(self):
+      def getResourcesAsDict(self):
             ress = []
             for i in self._resources:
                   ress.append((i.getFullName(), i))

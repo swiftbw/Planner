@@ -14,11 +14,8 @@ class Person:
             self._location = Location(personStrs[3].strip())
 
       def getOutStr(self):
-#            print "UID = %d" % self._uid
-#            print "First Name = %s" % self._firstName
-#            print "Last Name = %s" % self._lastName
-#            print "Location = %s" % self._location.get()
             return "%d,%s,%s,%s" % (self._uid, self._firstName, self._lastName, self._location.get())
+
       def printOutStr(self):
             print self.getOutStr()
 
