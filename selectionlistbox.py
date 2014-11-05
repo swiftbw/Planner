@@ -12,18 +12,20 @@ class SelectionListbox(Toplevel):
             
             self._lb = Listbox(self, selectmode = SINGLE)
             self._lb.pack()
+            self._buttons = PanedWindow(self)
 
             for i in selections:
                   self._lb.insert(END, i)
 
-            createButton = Button(self, text="Create", command=self.onCreate)
-            createButton.pack()
+            createButton = Button(self._buttons, text="Create", command=self.onCreate)
+            createButton.pack(side=LEFT)
 
-            modifyButton = Button(self, text="Modify", command=self.onModify)
-            modifyButton.pack()
+            modifyButton = Button(self._buttons, text="Modify", command=self.onModify)
+            modifyButton.pack(side=LEFT)
             
-            deleteButton = Button(self, text="Delete", command=self.onDelete)
-            deleteButton.pack()
+            deleteButton = Button(self._buttons, text="Delete", command=self.onDelete)
+            deleteButton.pack(side=RIGHT)
+            self._buttons.pack(side=BOTTOM)
 
       def onCreate(self):
             self._createCallback()
@@ -37,26 +39,33 @@ class SelectionListbox(Toplevel):
       def destroy(self):
             Toplevel.destroy(self)
               
+class mainclass():
+      def __init__(self, root):
+            self.l = ["asdf", "qwer", "zxcv"]
+            self.root = root
+            self.app = SelectionListbox(self.root, self.l, self.CreateCallback, self.ModifyCallback, self.DeleteCallback)
+
+      def CreateCallback(self):
+            print "Create"
+            self.l.append("uiop")
+            self.app.destroy()
+            self.app = SelectionListbox(self.root, self.l, self.CreateCallback, self.ModifyCallback, self.DeleteCallback)
+
+      def ModifyCallback(self, key):
+            print "Modify " + key
+
+      def DeleteCallback(self, key):
+            print "Delete"
+            self.l.remove(key)
+            self.app.destroy()
+            self.app = SelectionListbox(self.root, self.l, self.CreateCallback, self.ModifyCallback, self.DeleteCallback)
+
 def main():
+      
       root = Tk()
       root.geometry("250x150+300+300")
-
-      l = ["asdf", "qwer", "zxcv"]
-      
-      app = SelectionListbox(root, l, CreateCallback, ModifyCallback, DeleteCallback)
+      mc = mainclass(root)
       root.mainloop()
-
-def CreateCallback():
-      print "Create"
-
-def ModifyCallback(key):
-      print "Modify"
-
-def DeleteCallback(key):
-      print "Delete"
-      l.remove(key)
-      app.destroy()
-      app = SelectionListbox(root, l, CreateCallback, ModifyCallback, DeleteCallback)
 
 if __name__ == '__main__':
       main()
