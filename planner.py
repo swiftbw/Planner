@@ -44,24 +44,27 @@ class Planner(Frame):
             print "Resources Saved"
             
       def onResources(self):
-            if self._resourcesWindow == None:
-                  self._resourcesWindow = Toplevel(self._parent)
-                  self._resourcesWindow.protocol('WM_DELETE_WINDOW', self.destroyResourcesWindow)
-
-                  lb = Listbox(self._resourcesWindow)
-                  lb.pack()
-                  resources = self._resources.getResourcesAsDict()
-                  for i in resources:
-                        lb.insert(END, i[0])
-                  bt = Button(self._resourcesWindow, text="New Resource", command=self.newResource)
-                  bt.pack()
+            print self._resources
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+                  
       def destroyResourcesWindow(self):
             self._resourcesWindow.destroy()
             self._resourcesWindow = None
               
-      def newResource(self):
-            print "Hello World!"
+      def onCreateResource(self):
+            print "Creating new Resource"
             self._newResourcePanel = InputPanel(self._parent, {"First Name":"","Last Name":"","Location":""}, self.processNewResources)
+            self._resourcesWindow.destroy()
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+
+      def onModifyResource(self, key):
+            print "Modify " + key
+
+      def onDeleteResource(self, key):
+            print "Deleting Resource " + key + " from Resources"
+            self._resourcesWindow.destroy()
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+
       def processNewResources(self, panel, tdict):
             res = Person("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
             self._resources.add(res)

@@ -44,8 +44,7 @@ class Resources:
             return False
 
       def getResourcesAsDict(self):
-            ress = []
+            ress = {}
             for i in self._resources:
-                  ress.append((i.getFullName(), i))
-
+                  ress[i.getOutStr()] = i #Used to be getfullname but think we want a unique key in the listbox
             return ress

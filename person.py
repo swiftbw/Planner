@@ -36,7 +36,6 @@ class Person:
 
 def main():
       per = Person("0, Brian, Swift, CHI")
-      print per._location.get()
       per.printOutStr()
             
 if __name__ == '__main__':

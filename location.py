@@ -7,10 +7,7 @@ class Location:
                   self._location = locstr
 
       def isValid(self, instr):
-#            print instr
-#            print "Instr = " + instr
             for i in Location._validLocations:
-#                  print i
                   if i == instr:
                         return True
             else:
