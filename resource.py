@@ -6,12 +6,12 @@ class Resource:
             if instr == None:
                   return
 
-            personStrs = instr.split(",")
+            resourceStrs = instr.split(",")
             
-            self._uid = int(personStrs[0].strip())
-            self._firstName = personStrs[1].strip()
-            self._lastName = personStrs[2].strip()
-            self._location = Location(personStrs[3].strip())
+            self._uid = int(resourceStrs[0].strip())
+            self._firstName = resourceStrs[1].strip()
+            self._lastName = resourceStrs[2].strip()
+            self._location = Location(resourceStrs[3].strip())
 
       def getOutStr(self):
             return "%d,%s,%s,%s" % (self._uid, self._firstName, self._lastName, self._location.get())

@@ -1,5 +1,5 @@
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END
-from person import Person
+from resource import Resource
 from resources import Resources
 from location import Location
 from inputpanel import InputPanel
@@ -66,7 +66,7 @@ class Planner(Frame):
             self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def processNewResources(self, panel, tdict):
-            res = Person("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
+            res = Resource("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
             self._resources.add(res)
             panel.destroy()
             self.onResources()             
