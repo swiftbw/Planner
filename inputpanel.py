@@ -1,6 +1,4 @@
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
-#from person import Resources, Person
-#from location import Location
 
 class InputPanel(Toplevel):
       def __init__(self, parent, keyvalues, onSubmitcallback):

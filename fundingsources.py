@@ -9,7 +9,7 @@ class FundingSources():
                   fundingsources = filehandle.readlines()
                   filehandle.close()
 
-                  for i in resources:
+                  for i in fundingsources:
                         fundingSource = FundingSource(i)
                         self.add(fundingSource)
                         
@@ -20,7 +20,7 @@ class FundingSources():
       def write(self):
             try:
                   filehandle = open(self._filename, "w")
-                  for i in self._resources:
+                  for i in self._fundingSources:
                         i.write(filehandle)
                   filehandle.close()
             except IOError as e:
@@ -32,8 +32,8 @@ class FundingSources():
                   print "FundingSource already exists!"
                   return
             else:
-                  resource._uid = len(self._resources)+1
-                  self._resources.append(resource)
+                  fundingsource._fid = len(self._fundingSources)+1
+                  self._fundingSources.append(fundingsource)
             
       def checkNameExists(self, fundingsource):
             for i in self._fundingSources:
