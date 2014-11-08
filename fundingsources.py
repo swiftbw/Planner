@@ -10,6 +10,7 @@ class FundingSources():
                   filehandle.close()
 
                   for i in fundingsources:
+                        print i
                         fundingSource = FundingSource(i)
                         self.add(fundingSource)
                         
