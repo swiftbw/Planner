@@ -42,6 +42,12 @@ class Resources:
 
             return False
 
+      def getKeys(self):
+            schlussels = []
+            for i in self._resources:
+                  schlussels.append(i.getOutStr())
+            return schlussels
+
       def getResourcesAsDict(self):
             ress = {}
             for i in self._resources:

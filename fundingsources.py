@@ -43,6 +43,12 @@ class FundingSources():
 
             return False
 
+      def getKeys(self):
+            schlussels = []
+            for i in self._fundingSources:
+                  schlussels.append(i.getOutStr())
+            return schlussels
+
       def getFundingSourcesAsDict(self):
             fss = {}
             for i in self._fundingSources:

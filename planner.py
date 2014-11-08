@@ -7,7 +7,7 @@ from location import Location
 from inputpanel import InputPanel
 from selectionlistbox import SelectionListbox
 
-_plannerDataDir = "/users/swiftb/data/Planner/"
+_plannerDataDir = "/users/swiftb/dev/Planner/data/"
 _ResourcesFileName = "PlannerResources.txt"
 _FundingSourcesFileName = "PlannerFundingSources.txt"
 _Allocations = "PlannerAllocations.txt"
@@ -50,7 +50,7 @@ class Planner(Frame):
             print "Resources Saved"
             
       def onResources(self):
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def destroyResourcesWindow(self):
             self._resourcesWindow.destroy()
@@ -58,9 +58,9 @@ class Planner(Frame):
               
       def onCreateResource(self):
             print "Creating new Resource"
-            self._newResourcePanel = InputPanel(self._parent, {"First Name":"","Last Name":"","Location":""}, self.processNewResources)
+            self._newResourcePanel = InputPanel(self._parent, [("First Name",""),("Last Name",""),("Location","")], self.processNewResources)
             self._resourcesWindow.destroy()
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def onModifyResource(self, key):
             print "Modify " + key
@@ -68,7 +68,7 @@ class Planner(Frame):
       def onDeleteResource(self, key):
             print "Deleting Resource " + key + " from Resources"
             self._resourcesWindow.destroy()
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getResourcesAsDict().keys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def processNewResources(self, panel, tdict):
             res = Resource("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
@@ -78,7 +78,7 @@ class Planner(Frame):
             return
                   
       def onFundingSources(self):
-            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getFundingSourcesAsDict().keys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
+            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getKeys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
                   
       def destroyFundingSourcesWindow(self):
             self._fundingSourcesWindow.destroy()
@@ -88,7 +88,7 @@ class Planner(Frame):
             print "Creating new Funding Source"
             self._newFundingSourcePanel = InputPanel(self._parent, {"Source Name":"","Type":"","Description":""}, self.processNewFundingSources)
             self._fundingSourcesWindow.destroy()
-            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getFundingSourcesAsDict().keys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
+            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getKeys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
 
       def onModifyFundingSource(self, key):
             print "Modify " + key
@@ -96,7 +96,7 @@ class Planner(Frame):
       def onDeleteFundingSource(self, key):
             print "Deleting Funding Source " + key + " from Funding Sources"
             self._fundingSourcesWindow.destroy()
-            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getFundingSourcesAsDict().keys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
+            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getKeys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
 
       def processNewFundingSources(self, panel, tdict):
             res = FundingSource("0, " + tdict["Source Name"] + ", " + tdict["Type"] + ", " + Location(tdict["Description"]).get())
