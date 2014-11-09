@@ -1,7 +1,7 @@
 from location import Location
 
 class Resource:
-
+      Keys = "UID", "First Name", "Last Name", "Location"
       def __init__(self, instr):
             if instr == None:
                   return

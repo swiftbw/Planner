@@ -1,5 +1,6 @@
 
 class FundingSource():
+      Keys = "FID", "Name", "Type", "Description"
       def __init__(self, instr):
             fundingElems = instr.split(",")
 
@@ -27,6 +28,13 @@ class FundingSource():
 
       def getFundingSource(self):
             return "%s,%s,%s" % (self._name, self._type, self._desc)
+
+      def getValuesAsDict():
+            rdict = {}
+            for i in FundingSource.Keys:
+                  rdict[i] = self._fid
+                  
+            
 
 def main():
       src = FundingSource("0, CTC, INIT, A great project")

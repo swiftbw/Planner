@@ -27,7 +27,7 @@ class FundingSources():
             except IOError as e:
                   print "I/O error({0}): {1}".format(e.errno, e.strerror)
                   print "Unable to open %s for writing.", filestr
-                  
+
       def add(self, fundingsource):
             if self.checkNameExists(fundingsource) == True:
                   print "FundingSource already exists!"
@@ -49,8 +49,8 @@ class FundingSources():
                   schlussels.append(i.getOutStr())
             return schlussels
 
-      def getFundingSourcesAsDict(self):
+      def getAsDict(self):
             fss = {}
             for i in self._fundingSources:
-                  fss[i.getOutStr()] = i #Used to be getfullname but think we want a unique key in the listbox
+                  fss[i.getOutStr()] = i
             return fss

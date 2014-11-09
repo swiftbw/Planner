@@ -48,8 +48,8 @@ class Resources:
                   schlussels.append(i.getOutStr())
             return schlussels
 
-      def getResourcesAsDict(self):
+      def getAsDict(self):
             ress = {}
             for i in self._resources:
-                  ress[i.getOutStr()] = i #Used to be getfullname but think we want a unique key in the listbox
+                  ress[i.getOutStr()] = i
             return ress

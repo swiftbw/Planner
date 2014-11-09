@@ -17,8 +17,8 @@ class Planner(Frame):
             Frame.__init__(self, parent)   
             self._parent = parent
             self._resourcesWindow = None
-            self.loadResources()
-            self.loadFundingSources()
+            self._resources = Resources(_plannerDataDir+_ResourcesFileName)
+            self._fundingSources = FundingSources(_plannerDataDir+_FundingSourcesFileName)
             #self.loadAllocations()
             self.initUI()
             
@@ -36,54 +36,43 @@ class Planner(Frame):
             viewMenu.add_command(label="Funding Sources", command=self.onFundingSources)
             menubar.add_cascade(label="View", menu=viewMenu)
                         
-      def loadResources(self):
-            self._resources = Resources(_plannerDataDir+_ResourcesFileName)
-            
-      def loadFundingSources(self):
-            self._fundingSources = FundingSources(_plannerDataDir+_FundingSourcesFileName)
-            
       def onExit(self):
             self.quit()
 
       def onSave(self):
             self._resources.write()
             print "Resources Saved"
+            self._fundingSources.write()
+            print "Funding Sources Saved"
             
       def onResources(self):
             self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
-      def destroyResourcesWindow(self):
-            self._resourcesWindow.destroy()
-            self._resourcesWindow = None
-              
       def onCreateResource(self):
             print "Creating new Resource"
-            self._newResourcePanel = InputPanel(self._parent, [("First Name",""),("Last Name",""),("Location","")], self.processNewResources)
-            self._resourcesWindow.destroy()
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+            self._newResourcePanel = InputPanel(self._parent, {"First Name":"","Last Name":"","Location":""}, self.processNewResources)
+            self._resourcesWindow.update()
+#            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def onModifyResource(self, key):
             print "Modify " + key
 
       def onDeleteResource(self, key):
             print "Deleting Resource " + key + " from Resources"
-            self._resourcesWindow.destroy()
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
+            self._resourcesWindow.update()
+#            self._resourcesWindow = SelectionListbox(self._parent, self._resources.getKeys(), self.onCreateResource, self.onModifyResource, self.onDeleteResource)
 
       def processNewResources(self, panel, tdict):
             res = Resource("0, " + tdict["First Name"] + ", " + tdict["Last Name"] + ", " + Location(tdict["Location"]).get())
             self._resources.add(res)
             panel.destroy()
-            self.onResources()             
+            self._resourcesWindow.
+#            self.onResources()             
             return
                   
       def onFundingSources(self):
             self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources.getKeys(), self.onCreateFundingSource, self.onModifyFundingSource, self.onDeleteFundingSource)
                   
-      def destroyFundingSourcesWindow(self):
-            self._fundingSourcesWindow.destroy()
-            self._fundingSourcesWindow = None
-              
       def onCreateFundingSource(self):
             print "Creating new Funding Source"
             self._newFundingSourcePanel = InputPanel(self._parent, {"Source Name":"","Type":"","Description":""}, self.processNewFundingSources)

@@ -1,40 +1,76 @@
+se'''
+The InputPanel class is a UI component intended to capture basic key values.  It can accept default values.
+
+Any changes identified upon submit will be sent back as a dictionary in the callback function.
+
+Instance values include:
+_fieldValues
+kvpanel
+_rdict
+
+methods are:
+__init__
+destroy
+onSubmit
+returns a dictionary to the callback function of all fieldLabels that ahve changed.
+
+onCancel
+returns am empty dictionary to the callback function since by definition no values have changed
+
+'''
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
 
 class InputPanel(Toplevel):
-      def __init__(self, parent, keyvalues, onSubmitcallback):
+      def __init__(self, parent, fieldLabels, onSubmitCallback, fieldValuesDict={}):
             Toplevel.__init__(self, parent)   
             self.protocol('WM_DELETE_WINDOW', self.destroy)
+            self._fieldLabels = fieldLabels
             self._kvpanel = {}
-            self.onsubmitcallback = onSubmitcallback
             self._rdict = {}
-            for i in keyvalues.keys():
-                  print i
+            for i in self._fieldLabels:
+                  if i not in fieldValuesDict:
+                        fieldValuesDict[i] = ""
+                        
+            self._fieldValuesDict = fieldValuesDict
+            self.onSubmitCallback = onSubmitCallback
+            for i in self._fieldLabels:
                   self._kvpanel[i] = PanedWindow(self)
                   label = Label(self._kvpanel[i], text=i)
                   label.pack(side=LEFT)
                   v = StringVar()
                   entry = Entry(self._kvpanel[i], textvariable = v)
-                  v.set(keyvalues[i])
+                  v.set(self._fieldValuesDict[i])
                   self._rdict[i] = v
                   entry.pack(side=RIGHT)
                   self._kvpanel[i].pack(side=TOP)
 
-            subBt = Button(self, text="Submit", command=self.onSubmit)
-            subBt.pack(side=TOP)
+            self._buttonsPanel = PanedWindow(self)
+            
+            subBt = Button(self._buttonsPanel, text="Submit", command=self.onSubmit)
+            subBt.pack(side=LEFT)
+            cxlBt = Button(self._buttonsPanel, text="Cancel", command=self.onCancel)
+            cxlBt.pack(side=RIGHT)
+
+            self._buttonsPanel.pack(side=TOP)
+            
       def destroy(self):
             Toplevel.destroy(self)
       def onSubmit(self):
             keyvalues = {}
-            for i in self._rdict.keys():
-                  keyvalues[i] = self._rdict[i].get()
-            self.onsubmitcallback(self, keyvalues)
+            for i in self._fieldLabels:
+                  if self._rdict[i].get() != self._fieldValuesDict[i]:
+                        keyvalues[i] = self._rdict[i].get()
+            self.onSubmitCallback(self, keyvalues)
             
+      def onCancel(self):
+            self.onSubmitCallback(self, {})
 
 def main():
       root = Tk()
       root.geometry("250x150+300+300")
+      app = InputPanel(root, ("first", "last"), print_results)
       tdict = {"first" : "Brian", "last" : "swift"}
-      app = InputPanel(root, tdict, print_results)
+      app = InputPanel(root, ("first", "last"), print_results, tdict)
       root.mainloop()
 
 def print_results(panel, tdict):
