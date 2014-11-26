@@ -1,7 +1,7 @@
 from location import Location
 
 class Resource:
-      Keys = "UID", "First Name", "Last Name", "Location"
+      elementKeys = "First Name", "Last Name", "Location"
       def __init__(self, instr):
             if instr == None:
                   return
@@ -33,6 +33,10 @@ class Resource:
 
       def getFullName(self):
             return self._lastName + ", " + self._firstName
+        
+      def BuildInstrFromDict(self, idict):
+            retstr = "0,",idict["First Name"],",", idict["Last Name"], ",", idict["Location"],"\n"
+            return retstr
 
 def main():
       per = Resource("0, Brian, Swift, CHI")

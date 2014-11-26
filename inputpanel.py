@@ -1,4 +1,4 @@
-se'''
+'''
 The InputPanel class is a UI component intended to capture basic key values.  It can accept default values.
 
 Any changes identified upon submit will be sent back as a dictionary in the callback function.
@@ -21,10 +21,11 @@ returns am empty dictionary to the callback function since by definition no valu
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
 
 class InputPanel(Toplevel):
-      def __init__(self, parent, fieldLabels, onSubmitCallback, fieldValuesDict={}):
+      def __init__(self, parent, fieldLabels, onSubmitCallback, listKey=None, fieldValuesDict={}):
             Toplevel.__init__(self, parent)   
             self.protocol('WM_DELETE_WINDOW', self.destroy)
             self._fieldLabels = fieldLabels
+            self._listKey = listKey
             self._kvpanel = {}
             self._rdict = {}
             for i in self._fieldLabels:
@@ -32,7 +33,9 @@ class InputPanel(Toplevel):
                         fieldValuesDict[i] = ""
                         
             self._fieldValuesDict = fieldValuesDict
+
             self.onSubmitCallback = onSubmitCallback
+
             for i in self._fieldLabels:
                   self._kvpanel[i] = PanedWindow(self)
                   label = Label(self._kvpanel[i], text=i)
@@ -55,25 +58,26 @@ class InputPanel(Toplevel):
             
       def destroy(self):
             Toplevel.destroy(self)
+
       def onSubmit(self):
             keyvalues = {}
             for i in self._fieldLabels:
-                  if self._rdict[i].get() != self._fieldValuesDict[i]:
-                        keyvalues[i] = self._rdict[i].get()
-            self.onSubmitCallback(self, keyvalues)
+                  keyvalues[i] = self._rdict[i].get()
+
+            self.onSubmitCallback(keyvalues)
             
       def onCancel(self):
-            self.onSubmitCallback(self, {})
+            self.destroy()
 
 def main():
       root = Tk()
       root.geometry("250x150+300+300")
       app = InputPanel(root, ("first", "last"), print_results)
-      tdict = {"first" : "Brian", "last" : "swift"}
-      app = InputPanel(root, ("first", "last"), print_results, tdict)
+      tdict = {"first" : "Brian", "last" : "Swift"}
+      app = InputPanel(root, ("first", "last"), print_results, "Swift, Brian", tdict)
       root.mainloop()
 
-def print_results(panel, tdict):
+def print_results(panel, tdict, listkey):
       for i in tdict.keys():
             print i, tdict[i]
 

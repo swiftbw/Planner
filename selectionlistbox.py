@@ -13,6 +13,10 @@ inputCallback
 '''
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, SINGLE
 
+from resource import Resource
+from resources import Resources
+from inputpanel import InputPanel
+
 class SelectionListbox(Toplevel):
       def __init__(self, parent, objectList):
             Toplevel.__init__(self, parent)
@@ -24,7 +28,7 @@ class SelectionListbox(Toplevel):
             self._lb.pack()
             self._buttons = PanedWindow(self)
 
-            for i in objectList.getLBNames():
+            for i in objectList.getKeysInOrder():
                   self._lb.insert(END, i)
 
             addButton = Button(self._buttons, text="Add", command=self.onAdd)
@@ -34,44 +38,70 @@ class SelectionListbox(Toplevel):
             modifyButton.pack(side=LEFT)
             
             deleteButton = Button(self._buttons, text="Delete", command=self.onDelete)
-            deleteButton.pack(side=RIGHT)
+            deleteButton.pack(side=LEFT)
+
+            cancelButton = Button(self._buttons, text="Cancel", command=self.onCancel)
+            cancelButton.pack(side=RIGHT)
+
             self._buttons.pack(side=BOTTOM)
 
       def onAdd(self):
-            self._inputPanel = InputPanel(self, self._objectList.getKeys(), self.inputCallBack)
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.addCallBack)
 
       def onModify(self):
-            key = self._lb.curselection()
-            obj = self._objectsList(key)
-            mdict = obj.getValuesAsDict()
-            self._inputPanel = InputPanel(self, self._objectList.getKeys(), self.inputCallBack, self._objectList.getAsDict()[self._lb.curselection())])
+            ctr = self._lb.curselection()
+            key = self._lb.get(ctr)
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList.getAsDict(key))
             
       def onDelete(self):
-            self._deleteCallback(self._lb.get(self._lb.curselection()))
+            idx = self._lb.curselection()
+            self.deleteCallBack(idx)
+
+      def onCancel(self):
+            self.destroy()
 
       def destroy(self):
             Toplevel.destroy(self)
               
-      def inputCallback(self, cdict, key):
-            print "Add/Change input"
-            if self._objectList.
-            self._objectList.newFromDict(cdict)
+      def addCallBack(self, cdict):
+            print "Add new element"
+
+            self._objectList.addFromDict(cdict)
+                  
             self._lb.insert(END, key)
             self._lb.update()
-            self._inputPanel.destroy()
+            # self._inputPanel.destroy()
 
-      def DeleteCallback(self, key):
+      def modifyCallBack(self, cdict, key):
+            print "Modify Existing Element"
+
+            self._objectList.modifyElement(cdict, key)
+                  
+            self._lb.insert(END, key)
+            self._lb.update()
+            # self._inputPanel.destroy()
+
+      def deleteCallBack(self, idx):
             print "Delete"
-            self._objectList.remove(key)
-            self._lb.remove(key)
+            print idx
+            key = self._lb.get(idx)
+            self._objectList.deleteElement(key)
+            self._lb.delete(idx)
             self._lb.update()
 
 def main():
       
       root = Tk()
       root.geometry("250x150+300+300")
-      mc = mainclass(root)
+      sl = Resources("/users/swiftb/tmp/resources.txt")
+      res = Resource("0, Brian, Swift, CHI")
+      sl.add(res)
+      res = Resource("1, John, DeValk, CHI")
+      sl.add(res)
+      sl.write()
+      
+      mc = SelectionListbox(root, sl)
       root.mainloop()
 
 if __name__ == '__main__':
-      main()
+      main()    
