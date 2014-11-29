@@ -33,9 +33,9 @@ class Resource:
 
       def getFullName(self):
             return self._lastName + ", " + self._firstName
-        
-      def BuildInstrFromDict(self, idict):
-            retstr = "0,",idict["First Name"],",", idict["Last Name"], ",", idict["Location"],"\n"
+      @staticmethod
+      def BuildInstrFromDict(idict):
+            retstr = "0," + idict["First Name"] + "," + idict["Last Name"] + "," + idict["Location"]
             return retstr
 
 def main():

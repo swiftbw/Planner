@@ -33,14 +33,18 @@ class Resources:
       def add(self, resource):
             if self.checkNameExists(resource) == True:
                   print "Resource already exists!"
-                  return
+                  return None
             else:
                   resource._uid = len(self.getKeysInOrder())+1
-                  self._resources[resource.getOutStr()] = resource
+                  retstr = resource.getOutStr()
+                  self._resources[retstr] = resource
+                  return retstr
             
       def addFromDict(self, resdict):
             resstr = Resource.BuildInstrFromDict(resdict)
-            self.add(Resource(resstr))
+            res = Resource(resstr)
+            retstr = self.add(res)
+            return retstr
 
       def checkNameExists(self, resource):
             for i in self.getKeysInOrder():

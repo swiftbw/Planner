@@ -66,7 +66,7 @@ class SelectionListbox(Toplevel):
       def addCallBack(self, cdict):
             print "Add new element"
 
-            self._objectList.addFromDict(cdict)
+            key = self._objectList.addFromDict(cdict)
                   
             self._lb.insert(END, key)
             self._lb.update()
