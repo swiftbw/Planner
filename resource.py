@@ -37,7 +37,6 @@ class Resource:
       def BuildInstrFromDict(idict):
             retstr = "0," + idict["First Name"] + "," + idict["Last Name"] + "," + idict["Location"]
             return retstr
-
 def main():
       per = Resource("0, Brian, Swift, CHI")
       per.printOutStr()
