@@ -1,9 +1,10 @@
 from allocation import Allocation
               
 class AllocationSet():
-    def __init__(self, filestr = ""):
-          self._allocations = {}
-                      try:
+      def __init__(self, filestr = ""):
+            self._filename = filestr
+            self._allocations = {}
+            try:
                   filehandle = open(self._filename, "r")
                   allocations = filehandle.readlines()
                   filehandle.close()
