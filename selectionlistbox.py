@@ -13,7 +13,7 @@ inputCallback
 '''
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, SINGLE
 
-from resource import Resource
+
 from resources import Resources
 from inputpanel import InputPanel
 
