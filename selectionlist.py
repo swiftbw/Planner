@@ -14,16 +14,17 @@ class SelectionList:
             return
 
 '''
-Returns a list of strings in the order that they should be presented in the listbox.  This list needs to be a unique set of keys that can be used to look up an element in the list.
+Returns a list of strings representing labels for the given object type.  These can be used for display in the InputPanel.
 '''
-      def getKeys():
+      def getElementKeys():
             return
 
 '''
-Returns an object of base type inputelement from list or None if none exists.
+This method takes in a dictionary of values, creates an object of the type presented in the selectionlistbox, and returns a string which is the key to the new object.
+This method takes as input a dictionary containing all the fields required to create an instance of the class comprising the listbox.  This is passed in to the static method on the class and returns a string which can be passed into the constructor to create an actual object.  This is then added to the objects already represented in the listbox, and returns the appropriate key, which will be added to the listbox.
 '''
-      def addElement(<fieldsDict>):
-            return 
+      def addFromDict(<fieldsDict>):
+            return <string>
 
 
 '''
@@ -38,11 +39,8 @@ The remove method needs to remove the element from the list.  It is assumed that
       def deleteElement(key):
             return
 
-        '''
-Returns an object of base type inputelement from list or None if none exists.
-'''
-      def getFieldsDict(key):
-            return <fieldsDict>
+
+
 
       
       

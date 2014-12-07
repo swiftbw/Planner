@@ -15,6 +15,7 @@ from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Lab
 
 
 from resources import Resources
+from resource import Resource
 from inputpanel import InputPanel
 
 class SelectionListbox(Toplevel):
@@ -51,7 +52,7 @@ class SelectionListbox(Toplevel):
       def onModify(self):
             ctr = self._lb.curselection()
             key = self._lb.get(ctr)
-            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList.getAsDict(key))
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList.getElementAsDict(key))
             
       def onDelete(self):
             idx = self._lb.curselection()
@@ -63,7 +64,7 @@ class SelectionListbox(Toplevel):
       def destroy(self):
             Toplevel.destroy(self)
               
-      def addCallBack(self, cdict):
+      def addCallBack(self, cdict, key):
             print "Add new element"
 
             key = self._objectList.addFromDict(cdict)
@@ -77,7 +78,6 @@ class SelectionListbox(Toplevel):
 
             self._objectList.modifyElement(cdict, key)
                   
-            self._lb.insert(END, key)
             self._lb.update()
             # self._inputPanel.destroy()
 

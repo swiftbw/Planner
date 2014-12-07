@@ -16,6 +16,18 @@ class Resource:
       def getOutStr(self):
             return "%d,%s,%s,%s" % (self._uid, self._firstName, self._lastName, self._location.get())
 
+      def updateFromDict(self, cdict):
+            self._firstName = cdict["First Name"]
+            self._lastName = cdict["Last Name"]
+            self._location = cdict["Location"]
+            
+      def getObjectAsDict(self):
+            res = {}
+            res["First Name"] = self._firstName
+            res["Last Name"] = self._lastName
+            res["Locaiton"] = self._location
+            return res
+      
       def printOutStr(self):
             print self.getOutStr()
 
@@ -33,10 +45,12 @@ class Resource:
 
       def getFullName(self):
             return self._lastName + ", " + self._firstName
+        
       @staticmethod
       def BuildInstrFromDict(idict):
             retstr = "0," + idict["First Name"] + "," + idict["Last Name"] + "," + idict["Location"]
             return retstr
+        
 def main():
       per = Resource("0, Brian, Swift, CHI")
       per.printOutStr()

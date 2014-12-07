@@ -64,7 +64,8 @@ class InputPanel(Toplevel):
             for i in self._fieldLabels:
                   keyvalues[i] = self._rdict[i].get()
 
-            self.onSubmitCallback(keyvalues)
+            self.onSubmitCallback(keyvalues, self._listKey)
+            self.destroy()
             
       def onCancel(self):
             self.destroy()
@@ -77,11 +78,10 @@ def main():
       app = InputPanel(root, ("first", "last"), print_results, "Swift, Brian", tdict)
       root.mainloop()
 
-def print_results(panel, tdict, listkey):
+def print_results(tdict, listkey):
       for i in tdict.keys():
             print i, tdict[i]
 
-      panel.destroy()
 
 
 
