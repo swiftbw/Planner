@@ -83,11 +83,18 @@ class Resources:
       def getElementKeys(self):
             return Resource.elementKeys
 
-      def getAsDict(self):
+      def getLabelsAsDict(self):
             ress = {}
             for i in self._resources:
                   ress[i.getOutStr()] = i
             return ress
+
+      def getElementAsDict(self, key):
+
+                        return self._resources[key].getObjectAsDict()
+
+      def modifyElement(self, cdict, key):
+            self._resources[key].updateFromDict(cdict)
 
       def deleteElement(self, key):
             d = dict(self._resources)
