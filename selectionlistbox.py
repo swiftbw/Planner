@@ -52,7 +52,7 @@ class SelectionListbox(Toplevel):
       def onModify(self):
             ctr = self._lb.curselection()
             key = self._lb.get(ctr)
-            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList.getElementAsDict(key))
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList[key])
             
       def onDelete(self):
             idx = self._lb.curselection()
@@ -93,10 +93,10 @@ def main():
       
       root = Tk()
       root.geometry("250x150+300+300")
-      sl = Resources("/users/swiftb/tmp/resources.txt")
-      res = Resource("0, Brian, Swift, CHI")
+      sl = Resources("/users/swiftb/dev/Planner/data/testresources.txt")
+      res = Resource("{'UID': '1', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
       sl.add(res)
-      res = Resource("1, John, DeValk, CHI")
+      res = Resource("{'UID': '2', 'First Name': 'John', 'Last Name': 'DeValk', 'Location': 'CHI'}")
       sl.add(res)
       sl.write()
       

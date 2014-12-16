@@ -1,10 +1,12 @@
-class Location:
+class Location(str):
       _validLocations = ["UNK", "CHI", "NYC", "LDN", "CHE", "HKG", "TKY"]
 
       def __init__(self, locstr = "UNK"):
-            self._location = "UNK"
+            
             if self.isValid(locstr) == True:
-                  self._location = locstr
+                  super(Location, self).__init__(locstr)
+            else:
+                  super(Location, self).__init__("UNK")
 
       def isValid(self, instr):
             for i in Location._validLocations:
@@ -12,23 +14,28 @@ class Location:
                         return True
             else:
                   return False
-                
+
+'''                              
       def set(self, instr):
             if self.isValid(instr) == True:
-                  self._location = instr
+                  print "setting instr " + instr
+                  self = Location(instr)
+            else:
+                  self = Location("")
 
       def get(self):
-            return self._location
-
+            return self
+'''
+              
 def main():
       loc = Location("NYC")
-      print loc.get()
+      print loc
 
       loc2 = Location("QWE")
 
-      print loc2.get()
-      loc2.set("NYC")
-      print loc2.get()
+      print loc2
+      loc2 = Location("NYC")
+      print loc2
 
             
 if __name__ == '__main__':

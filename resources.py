@@ -41,8 +41,9 @@ class Resources:
                   return retstr
             
       def addFromDict(self, resdict):
-            resstr = Resource.BuildInstrFromDict(resdict)
-            res = Resource(resstr)
+            print resdict
+            res = Resource(resdict)
+            res[Resource.UID] = '0'
             retstr = self.add(res)
             return retstr
 
@@ -90,8 +91,7 @@ class Resources:
             return ress
 
       def getElementAsDict(self, key):
-
-                        return self._resources[key].getObjectAsDict()
+            return self._resources[key]
 
       def modifyElement(self, cdict, key):
             self._resources[key].updateFromDict(cdict)
@@ -100,3 +100,9 @@ class Resources:
             d = dict(self._resources)
             del d[key]
             self._resources = d
+
+def main():
+      sl = Resources("/users/swiftb/dev/Planner/data/testresources.txt")
+
+if __name__ == "__main__":
+      main()

@@ -1,8 +1,8 @@
-1,Brian,Swift,CHI
-2,Tom,Rodgers,CHI
-3,John,DeValk,CHI
-4,Matt,Wilson,CHI
-5,Sandeep,Pai,CHI
-6,Murugan,Manickam,NYC
-7,Venkataramani,Suresh,NYC
-8,Zaida,Medina,NYC
+{"UID": "1", "First Name": "Brian", "Last Name": "Swift", "Location": "CHI"}
+{"UID": "2", "First Name": "Tom", "Last Name": "Rodgers", "Location": "CHI"}
+{"UID": "3", "First Name": "John", "Last Name": "DeValk", "Location": "CHI"}
+{"UID": "4", "First Name": "Matt", "Last Name": "Wilson", "Location": "CHI"}
+{"UID": "5", "First Name": "Sandeep", "Last Name": "Pai", "Location": "CHI"}
+{"UID": "6", "First Name": "Murugan", "Last Name": "Manickam", "Location": "NYC"}
+{"UID": "7", "First Name": "Suresh", "Last Name": "Venkataramani", "Location": "NYC"}
+{"UID": "8", "First Name": "Zaida", "Last Name": "Medina", "Location":"NYC"}

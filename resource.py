@@ -1,60 +1,61 @@
+import ast
 from location import Location
 
-class Resource:
-      elementKeys = "First Name", "Last Name", "Location"
+class Resource(dict):
+      uid = "UID"
+      firstName = "First Name"
+      lastName = "Last Name"
+      location = "Location"
+      dictKeys = uid, firstName, lastName, location
+      elementKeys = firstName, lastName, location
       def __init__(self, instr):
             if instr == None:
                   return
 
-            resourceStrs = instr.split(",")
-            
-            self._uid = int(resourceStrs[0].strip())
-            self._firstName = resourceStrs[1].strip()
-            self._lastName = resourceStrs[2].strip()
-            self._location = Location(resourceStrs[3].strip())
+            idict = ast.literal_eval(instr)
+            for i in Resource.dictKeys:
+                self[i] = idict[i]
+
+            self[Resource.location] = Location(idict[Resource.location])
 
       def getOutStr(self):
-            return "%d,%s,%s,%s" % (self._uid, self._firstName, self._lastName, self._location.get())
+            return "%s,%s,%s,%s" % (self[Resource.uid], self[Resource.firstName], self[Resource.lastName], self[Resource.location])
 
       def updateFromDict(self, cdict):
-            self._firstName = cdict["First Name"]
-            self._lastName = cdict["Last Name"]
-            self._location = cdict["Location"]
+            self[Resource.firstName] = cdict[Resource.firstName]
+            self[Resource.lastName] = cdict[Resource.lastName]
+            self[Resource.location] = cdict[Resource.location]
             
-      def getObjectAsDict(self):
-            res = {}
-            res["First Name"] = self._firstName
-            res["Last Name"] = self._lastName
-            res["Locaiton"] = self._location
-            return res
-      
       def printOutStr(self):
             print self.getOutStr()
 
       def isValid(self):
-            if self._uid == 0 or self._firstName == "" or self._lastName == "" or self._location.get() == "UNK":
+            if self[Resource.uid] == 0 or self[Resource.firstName] == "" or self[Resource.lastName] == "" or self[Resource.location] == "UNK":
                   return False
             else:
                   return True
              
       def write(self, filehandle):
-            outstr = self.getOutStr()
+            outstr = str(self)
             print outstr
             filehandle.write(outstr+"\n")
             return
 
       def getFullName(self):
-            return self._lastName + ", " + self._firstName
+            return self[Resource.lastName] + ", " + self[Resource.firstName]
         
       @staticmethod
       def BuildInstrFromDict(idict):
-            retstr = "0," + idict["First Name"] + "," + idict["Last Name"] + "," + idict["Location"]
+            retstr = "0," + idict[Resource.firstName] + "," + idict[Resource.lastName] + "," + idict[Resource.location]
             return retstr
         
 def main():
-      per = Resource("0, Brian, Swift, CHI")
-      per.printOutStr()
-            
+      per = Resource("{'UID': '0', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
+      x = str(per)
+      print x
+      y = ast.literal_eval(x)
+      print y
+      
 if __name__ == '__main__':
       main()
       
