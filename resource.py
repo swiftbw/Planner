@@ -12,7 +12,12 @@ class Resource(dict):
             if instr == None:
                   return
 
-            idict = ast.literal_eval(instr)
+            if type(instr) is dict:
+                  idict = instr
+                  idict[Resource.uid] = '0'
+            else:
+                  idict = ast.literal_eval(instr)
+                  
             for i in Resource.dictKeys:
                 self[i] = idict[i]
 

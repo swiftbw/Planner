@@ -52,7 +52,9 @@ class SelectionListbox(Toplevel):
       def onModify(self):
             ctr = self._lb.curselection()
             key = self._lb.get(ctr)
-            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList[key])
+            print key
+            print self._objectList
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList._resources[key])
             
       def onDelete(self):
             idx = self._lb.curselection()
@@ -75,8 +77,10 @@ class SelectionListbox(Toplevel):
 
       def modifyCallBack(self, cdict, key):
             print "Modify Existing Element"
-
+            print cdict
+            print key
             self._objectList.modifyElement(cdict, key)
+            print self._objectList._resources[key]
                   
             self._lb.update()
             # self._inputPanel.destroy()
@@ -99,6 +103,7 @@ def main():
       res = Resource("{'UID': '2', 'First Name': 'John', 'Last Name': 'DeValk', 'Location': 'CHI'}")
       sl.add(res)
       sl.write()
+      print sl._resources
       
       mc = SelectionListbox(root, sl)
       root.mainloop()

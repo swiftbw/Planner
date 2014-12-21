@@ -1,3 +1,6 @@
+'''
+Might be good to make this inherit from dict at some point...
+'''
 from resource import Resource
 
 class Resources:
@@ -35,7 +38,7 @@ class Resources:
                   print "Resource already exists!"
                   return None
             else:
-                  resource._uid = len(self.getKeysInOrder())+1
+                  resource[Resource.uid] = str(len(self.getKeysInOrder())+1)
                   retstr = resource.getOutStr()
                   self._resources[retstr] = resource
                   return retstr
@@ -43,7 +46,6 @@ class Resources:
       def addFromDict(self, resdict):
             print resdict
             res = Resource(resdict)
-            res[Resource.UID] = '0'
             retstr = self.add(res)
             return retstr
 
