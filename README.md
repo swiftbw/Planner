@@ -5,6 +5,7 @@ tracking how teams are spending their time.  The application allows
 you to set up a list of resources, and assign them to different
 types of efforts.
 
+For the data objects, there is a window class, a 
 
 Objects:
 Resource

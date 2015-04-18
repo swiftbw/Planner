@@ -1,12 +1,19 @@
+'''
+The Planner class is the main class for the Planner application.  planner.py extends Frame.  Upon initialization a reference to the parent window is stored in the object, and _resources, _fundingSources, and _allocations objects are created.
+
+initUI is then called.  When initUI is called the file menu and view menus are set up.
+
+From the file menu, exit and save options are available.
+
+From the view menu, the resources and funding sources set-up screens can be chosen.
+
+
+'''
 from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END
-from resource import Resource
 from resources import Resources
-from fundingsource import FundingSource
 from fundingsources import FundingSources
-from allocation import Allocation
 from allocationset import AllocationSet
-from location import Location
-from inputpanel import InputPanel
+#from inputpanel import InputPanel
 from selectionlistbox import SelectionListbox
 
 _plannerDataDir = "/users/swiftb/dev/Planner/data/"
