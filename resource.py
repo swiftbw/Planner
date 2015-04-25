@@ -6,7 +6,8 @@ class Resource(dict):
       firstName = "First Name"
       lastName = "Last Name"
       location = "Location"
-      dictKeys = uid, firstName, lastName, location
+      status = "Status"
+      dictKeys = uid, firstName, lastName, location, status
       elementKeys = firstName, lastName, location
       def __init__(self, instr):
             if instr == None:
@@ -14,12 +15,17 @@ class Resource(dict):
 
             if type(instr) is dict:
                   idict = instr
-                  idict[Resource.uid] = '0'
             else:
                   idict = ast.literal_eval(instr)
                   
+            if Resource.uid not in idict.keys():
+                  idict[Resource.uid] = '0'
+
+            if Resource.status not in idict.keys():
+                  idict[Resource.status] = '1'
+
             for i in Resource.dictKeys:
-                self[i] = idict[i]
+                  self[i] = idict[i]
 
             self[Resource.location] = Location(idict[Resource.location])
 

@@ -85,10 +85,10 @@ class PlannerFrame(wx.Frame):
             print "Funding Sources Saved"
             
       def OnResources(self, e):
-            self._resourcesWindow = SelectionListbox(self._parent, self._resources)
+            self._resourcesWindow = SelectionListbox(self, self._resources)
 
       def OnFundingSources(self, e):
-            self._fundingSourcesWindow = SelectionListbox(self._parent, self._fundingSources)
+            self._fundingSourcesWindow = SelectionListbox(self, self._fundingSources)
         
             
 def main():

@@ -85,6 +85,8 @@ class Resources:
             return schlussels
       def getElementKeys(self):
             return Resource.elementKeys
+      def getDictKeys(self):
+            return Resource.dictKeys
 
       def getLabelsAsDict(self):
             ress = {}

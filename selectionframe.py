@@ -13,24 +13,30 @@ inputCallback
 '''
 #from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, SINGLE
 import wx
-
 from resources import Resources
 from resource import Resource
+
 from inputpanel import InputPanel
 
 class SelectionFrame(wx.Frame):
       def __init__(self, parent, ress, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "SelectionFrame" ):
             super(SelectionFrame, self).__init__(parent, id, title, pos, size, style, name)
 
-            self._mainpanel = wx.Panel(self)
+            self._mainpanel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
 
             mainsizer = wx.BoxSizer(wx.VERTICAL)
-            mainsizer.Add(self._mainpanel, 1, wx.EXPAND)
-
-            listctrl = wx.ListCtrl()
-            mainsizer.Add(listctrl)
-
+            listctrlsizer = wx.BoxSizer(wx.VERTICAL)
             buttonsizer = wx.BoxSizer(wx.HORIZONTAL)
+
+            self._listctrl = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
+
+            i = 0
+            for key in ress.getDictKeys():
+                  self._listctrl.InsertColumn(i, key)
+
+            listctrlsizer.Add(self._listctrl)
+
+            for 
 
             ADD_BTN = wx.NewId()
             MODIFY_BTN = wx.NewId()
@@ -46,6 +52,8 @@ class SelectionFrame(wx.Frame):
             buttonsizer.Add(deletebtn)
             buttonsizer.Add(cancelbtn)
             
+            mainsizer.Add(listctrlsizer)
+            mainsizer.AddSpacer(50)
             mainsizer.Add(buttonsizer)
             
             self._mainpanel.SetSizer(mainsizer)
