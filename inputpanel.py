@@ -18,7 +18,9 @@ onCancel
 returns am empty dictionary to the callback function since by definition no values have changed
 
 '''
-from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
+#from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
+
+import wx
 
 class InputPanel(Toplevel):
       def __init__(self, parent, fieldLabels, onSubmitCallback, listKey=None, fieldValuesDict={}):

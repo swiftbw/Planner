@@ -51,9 +51,9 @@ class Resource(dict):
             return
 
       def match(self, res):
-            for i in dictKeys:
+            for i in Resource.dictKeys:
                   if self[i] != res[i]:
-                        return false
+                        return False
             return true
 
       def getFullName(self):
@@ -61,11 +61,47 @@ class Resource(dict):
         
         
 def main():
+
+      print "Testing Resource.py methods:  __init__, updateFromDict, PrintOutStr, isValid, write, match, and getFullName."
+      print "Testing Init"
+      
       per = Resource("{'UID': '0', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
       x = str(per)
       print x
+      print "Testing ability to construct a dict from a string?"
+      
       y = ast.literal_eval(x)
       print y
+
+      print "Testing ability to 'update from dict'"
+
+      x={'First Name': 'Tony', 'Last Name' : 'Romo', 'Location' : 'CHI'}
+      per.updateFromDict(x)
+      print per
+      
+      print 'Testing ability to printOutStr'
+      print per.printOutStr()
+
+      print 'Testing isValid'
+      print per.isValid()
+
+      print 'Testing write -- not yet...'
+
+      print 'Testing Match'
+      print 'does x = y?'
+      print 'per = '
+      per.printOutStr()
+
+      per2 = Resource(y)
+
+      print 'per2 = '
+      per2.printOutStr()
+
+      print 'does per match per2? '
+      print per.match(per2)
+
+      print 'testing getFullName'
+      print per.getFullName()
       
 if __name__ == '__main__':
       main()
