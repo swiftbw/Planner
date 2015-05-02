@@ -9,6 +9,7 @@ class Resource(dict):
       status = "Status"
       dictKeys = uid, firstName, lastName, location, status
       elementKeys = firstName, lastName, location
+
       def __init__(self, instr):
             if instr == None:
                   return
@@ -29,16 +30,13 @@ class Resource(dict):
 
             self[Resource.location] = Location(idict[Resource.location])
 
-      def getOutStr(self):
-            return "%s,%s,%s,%s" % (self[Resource.uid], self[Resource.firstName], self[Resource.lastName], self[Resource.location])
-
       def updateFromDict(self, cdict):
             self[Resource.firstName] = cdict[Resource.firstName]
             self[Resource.lastName] = cdict[Resource.lastName]
             self[Resource.location] = cdict[Resource.location]
-            
+
       def printOutStr(self):
-            print self.getOutStr()
+            print str(self)
 
       def isValid(self):
             if self[Resource.uid] == 0 or self[Resource.firstName] == "" or self[Resource.lastName] == "" or self[Resource.location] == "UNK":
@@ -52,13 +50,15 @@ class Resource(dict):
             filehandle.write(outstr+"\n")
             return
 
+      def match(self, res):
+            for i in dictKeys:
+                  if self[i] != res[i]:
+                        return false
+            return true
+
       def getFullName(self):
             return self[Resource.lastName] + ", " + self[Resource.firstName]
         
-      @staticmethod
-      def BuildInstrFromDict(idict):
-            retstr = "0," + idict[Resource.firstName] + "," + idict[Resource.lastName] + "," + idict[Resource.location]
-            return retstr
         
 def main():
       per = Resource("{'UID': '0', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
