@@ -16,7 +16,7 @@ import wx
 from resources import Resources
 from resource import Resource
 
-from inputpanel import InputPanel
+#from inputpanel import InputPanel
 
 class SelectionFrame(wx.Frame):
       def __init__(self, parent, ress, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "SelectionFrame" ):
@@ -35,8 +35,6 @@ class SelectionFrame(wx.Frame):
                   self._listctrl.InsertColumn(i, key)
 
             listctrlsizer.Add(self._listctrl)
-
-            for 
 
             ADD_BTN = wx.NewId()
             MODIFY_BTN = wx.NewId()

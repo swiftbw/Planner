@@ -21,13 +21,30 @@ returns am empty dictionary to the callback function since by definition no valu
 #from Tkinter import Tk, Frame, Menu, PanedWindow, Listbox, Button, Toplevel, Label, Entry, LEFT, RIGHT, TOP, BOTTOM, END, StringVar
 
 import wx
+from resource import Resource
 
-class InputPanel(Toplevel):
-      def __init__(self, parent, fieldLabels, onSubmitCallback, listKey=None, fieldValuesDict={}):
-            Toplevel.__init__(self, parent)   
-            self.protocol('WM_DELETE_WINDOW', self.destroy)
+class InputPanel(wx.Frame):
+      def __init__(self, parent, res, fieldLabels, onSubmitCallback, listKey=None, fieldValuesDict={}, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "InputPanel" ):
+
+            super(InputPanel, self).__init__(parent, id, title, pos, size, style, name)
+
             self._fieldLabels = fieldLabels
             self._listKey = listKey
+
+            self._mainpanel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
+
+            mainsizer = wx.BoxSizer(wx.VERTICAL)
+            keyvaluesizers = []
+            for i in self._fieldLabels:
+                  keyvaluesizers.Append(wx.BoxSizer(wx.HORIZONTAL))
+                  keyvaluesizers[-1].Add(wx.StaticText(self, label = i), 0, wx.ALIGN_CENTER_VERTICAL)
+                  if i in self._fieldValuesDict:
+                        self._fieldValues[i] = wx.TextCtrl(self)
+                  
+                  self._fieldValues[i].SetValue(self._fieldValuesDict[i])
+                  keyvaluesizers[-1].Add(self._fieldValues[i], 0, wx.EXPAND)
+
+            
             self._kvpanel = {}
             self._rdict = {}
             for i in self._fieldLabels:
@@ -73,8 +90,15 @@ class InputPanel(Toplevel):
             self.destroy()
 
 def main():
-      root = Tk()
-      root.geometry("250x150+300+300")
+
+          
+      app = wx.App()
+
+      res = Resource("{'UID': '1', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
+      mc = InputPanel(None, res)
+
+      app.MainLoop()
+
       app = InputPanel(root, ("first", "last"), print_results)
       tdict = {"first" : "Brian", "last" : "Swift"}
       app = InputPanel(root, ("first", "last"), print_results, "Swift, Brian", tdict)
