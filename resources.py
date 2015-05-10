@@ -31,7 +31,7 @@ class Resources:
                   print "Unable to open %s for writing.", filestr
                   
       def add(self, resource):
-            if self.checkNameExists(resource.uid) == True:
+            if self.checkNameExists(resource) == True:
                   print "Resource already exists!"
                   return None
             else:
@@ -58,20 +58,39 @@ class Resources:
       def getDictKeys(self):
             return Resource.dictKeys
 
-      def getElementAsDict(self, key):
-            return self._resources[key]
+      def getElementAsDict(self, idx):
+            return self._resources[idx]
 
-      def modifyElement(self, cdict, key):
-            self._resources[key].updateFromDict(cdict)
+      def modifyElement(self, cdict, idx):
+            self._resources[idx].updateFromDict(cdict)
 
-      def deleteElement(self, key):
-            d = dict(self._resources)
-            del d[key]
+      def deleteElement(self, idx):
+            d = list(self._resources)
+            del d[idx]
             self._resources = d
 
 def main():
       sl = Resources("/users/swiftb/dev/Planner/data/testresources.txt")
       for i in sl._resources:
             print str(i)
+
+      per = Resource("{'UID': '0', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
+      per2 = Resource("{'UID': '0', 'First Name': 'Archy', 'Last Name': 'Swift', 'Location': 'CHI'}")
+
+      print "Checking 'checkNameExists'"
+      print 'does name exist? '
+      print sl.checkNameExists(per)
+
+      print 'Testing modifyElement'
+      print sl._resources
+      print per2
+      print sl.modifyElement(per2, 1)
+      
+      print "Testing deleteElement"
+      print sl._resources
+      print "Deleting first element"
+      sl.deleteElement(0)
+      print sl._resources
+      
 if __name__ == "__main__":
       main()

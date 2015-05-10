@@ -16,7 +16,7 @@ import wx
 from resources import Resources
 from resource import Resource
 
-#from inputpanel import InputPanel
+from inputpanel import InputPanel
 
 class SelectionFrame(wx.Frame):
       def __init__(self, parent, ress, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "SelectionFrame" ):
@@ -30,8 +30,20 @@ class SelectionFrame(wx.Frame):
 
             self._listctrl = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
 
+            for i in ress._resources:
+                  print i[Resource.uid]
+                  print i[Resource.firstName]
+                  print i[Resource.lastName]
+                  print i[Resource.location]
+                  print i[Resource.status]
+                  self._listctrl.Append(str(i[Resource.uid]))
+                  self._listctrl.Append(i[Resource.firstName])
+                  self._listctrl.Append(i[Resource.lastName])
+                  self._listctrl.Append(i[Resource.location])
+                  self._listctrl.Append(i[Resource.status])
+
             i = 0
-            for key in ress.getDictKeys():
+            for key in reversed(ress.getDictKeys()):
                   self._listctrl.InsertColumn(i, key)
 
             listctrlsizer.Add(self._listctrl)
@@ -50,6 +62,13 @@ class SelectionFrame(wx.Frame):
             buttonsizer.Add(deletebtn)
             buttonsizer.Add(cancelbtn)
             
+            self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.onUpdateSelection)
+            
+            self.Bind(wx.EVT_BUTTON, self.onAdd, id=ADD_BTN)
+            # self.Bind(wx.EVT_BUTTON, self.onModify, MODIFY_BTN)
+            # self.Bind(wx.EVT_BUTTON, self.onDelete, id=DELETE_BTN)
+            self.Bind(wx.EVT_BUTTON, self.onCancel, id=CANCEL_BTN)
+
             mainsizer.Add(listctrlsizer)
             mainsizer.AddSpacer(50)
             mainsizer.Add(buttonsizer)
@@ -57,32 +76,22 @@ class SelectionFrame(wx.Frame):
             self._mainpanel.SetSizer(mainsizer)
             self._mainpanel.SetInitialSize()
             self.Show()
-'''            
-            self._objectList = objectList
+
+      def onUpdateSelection(self, event):
+            self.row_idx = event.GetIndex()
             
-            self._lb = Listbox(self, selectmode = SINGLE)
-            self._lb.pack()
-            self._buttons = PanedWindow(self)
+      def onAdd(self, event):
+            d = {}
+            for i in Resource.dictKeys:
+                  d[i] = ""
 
-            for i in objectList.getKeysInOrder():
-                  self._lb.insert(END, i)
+            res = Resource(d)
+            self._inputPanel = InputPanel(self, res, self.addCallBack)
 
-            addButton = Button(self._buttons, text="Add", command=self.onAdd)
-            addButton.pack(side=LEFT)
-
-            modifyButton = Button(self._buttons, text="Modify", command=self.onModify)
-            modifyButton.pack(side=LEFT)
-            
-            deleteButton = Button(self._buttons, text="Delete", command=self.onDelete)
-            deleteButton.pack(side=LEFT)
-
-            cancelButton = Button(self._buttons, text="Cancel", command=self.onCancel)
-            cancelButton.pack(side=RIGHT)
-
-            self._buttons.pack(side=BOTTOM)
-
-      def onAdd(self):
-            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.addCallBack)
+      """
+      def onDelete(self):
+            idx = self._lb.curselection()
+            self.deleteCallBack(idx)
 
       def onModify(self):
             ctr = self._lb.curselection()
@@ -91,24 +100,25 @@ class SelectionFrame(wx.Frame):
             print self._objectList
             self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList._resources[key])
             
-      def onDelete(self):
-            idx = self._lb.curselection()
-            self.deleteCallBack(idx)
-
-      def onCancel(self):
+      """
+      def onCancel(self, event):
             self.destroy()
 
       def destroy(self):
-            Toplevel.destroy(self)
+            self.Destroy()
               
-      def addCallBack(self, cdict, key):
+      def addCallBack(self, cdict):
             print "Add new element"
 
             key = self._objectList.addFromDict(cdict)
                   
-            self._lb.insert(END, key)
-            self._lb.update()
+            print self.row_idx
+            #self._lb.insert(END, key)
+            #self._lb.update()
             # self._inputPanel.destroy()
+
+      '''            
+
 
       def modifyCallBack(self, cdict, key):
             print "Modify Existing Element"
@@ -127,7 +137,9 @@ class SelectionFrame(wx.Frame):
             self._objectList.deleteElement(key)
             self._lb.delete(idx)
             self._lb.update()
-'''
+      '''
+
+
 def main():
       
       app = wx.App()

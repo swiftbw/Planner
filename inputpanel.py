@@ -24,92 +24,76 @@ import wx
 from resource import Resource
 
 class InputPanel(wx.Frame):
-      def __init__(self, parent, res, fieldLabels, onSubmitCallback, listKey=None, fieldValuesDict={}, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "InputPanel" ):
+      def __init__(self, parent, res, onSubmitCallback, id=wx.ID_ANY, title="", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE, name = "InputPanel" ):
 
             super(InputPanel, self).__init__(parent, id, title, pos, size, style, name)
 
-            self._fieldLabels = fieldLabels
-            self._listKey = listKey
+            self._inputDict = res
+            self.onSubmitCallback = onSubmitCallback
 
             self._mainpanel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
 
             mainsizer = wx.BoxSizer(wx.VERTICAL)
-            keyvaluesizers = []
-            for i in self._fieldLabels:
-                  keyvaluesizers.Append(wx.BoxSizer(wx.HORIZONTAL))
-                  keyvaluesizers[-1].Add(wx.StaticText(self, label = i), 0, wx.ALIGN_CENTER_VERTICAL)
-                  if i in self._fieldValuesDict:
-                        self._fieldValues[i] = wx.TextCtrl(self)
+
+            kvaluesizer = wx.GridSizer(6,2,5,5)
+            
+            self._inputTextCtrl = {}
+            
+            for i in self._inputDict.dictKeys:
+                  kvaluesizer.Add(wx.StaticText(self, label = i))
+                  if i in self._inputDict:
+                        self._inputTextCtrl[i] = wx.TextCtrl(self)
+                        self._inputTextCtrl[i].SetValue(self._inputDict[i])
                   
-                  self._fieldValues[i].SetValue(self._fieldValuesDict[i])
-                  keyvaluesizers[-1].Add(self._fieldValues[i], 0, wx.EXPAND)
+                  kvaluesizer.Add(self._inputTextCtrl[i])
 
+            mainsizer.Add(kvaluesizer, 1, wx.EXPAND)
+
+            SUB_BTN = wx.NewId()
+            CXL_BTN = wx.NewId()
             
-            self._kvpanel = {}
-            self._rdict = {}
-            for i in self._fieldLabels:
-                  if i not in fieldValuesDict:
-                        fieldValuesDict[i] = ""
-                        
-            self._fieldValuesDict = fieldValuesDict
+            subbtn = wx.Button(self._mainpanel, SUB_BTN, "Submit")
+            cxlbtn = wx.Button(self._mainpanel, CXL_BTN, "Cancel")
 
-            self.onSubmitCallback = onSubmitCallback
+            buttonsizer = wx.BoxSizer(wx.HORIZONTAL)
 
-            for i in self._fieldLabels:
-                  self._kvpanel[i] = PanedWindow(self)
-                  label = Label(self._kvpanel[i], text=i)
-                  label.pack(side=LEFT)
-                  v = StringVar()
-                  entry = Entry(self._kvpanel[i], textvariable = v)
-                  v.set(self._fieldValuesDict[i])
-                  self._rdict[i] = v
-                  entry.pack(side=RIGHT)
-                  self._kvpanel[i].pack(side=TOP)
-
-            self._buttonsPanel = PanedWindow(self)
+            self.Bind ( wx.EVT_BUTTON, self.onSubmit, id=SUB_BTN )
+            self.Bind ( wx.EVT_BUTTON, self.onCancel, id=CXL_BTN )
             
-            subBt = Button(self._buttonsPanel, text="Submit", command=self.onSubmit)
-            subBt.pack(side=LEFT)
-            cxlBt = Button(self._buttonsPanel, text="Cancel", command=self.onCancel)
-            cxlBt.pack(side=RIGHT)
+            buttonsizer.Add(subbtn)
+            buttonsizer.Add(cxlbtn)
 
-            self._buttonsPanel.pack(side=TOP)
+            mainsizer.Add(buttonsizer)
+
+            self._mainpanel.SetSizer(mainsizer)
+            self._mainpanel.SetInitialSize()
+            self.Show()
             
       def destroy(self):
-            Toplevel.destroy(self)
+            self.Destroy()
 
-      def onSubmit(self):
+      def onSubmit(self, event):
             keyvalues = {}
-            for i in self._fieldLabels:
-                  keyvalues[i] = self._rdict[i].get()
+            for i in self._inputDict.dictKeys:
+                  keyvalues[i] = self._inputTextCtrl[i].GetValue()
 
-            self.onSubmitCallback(keyvalues, self._listKey)
-            self.destroy()
+            self.onSubmitCallback(keyvalues)
+            self.Destroy()
             
-      def onCancel(self):
+      def onCancel(self, event):
             self.destroy()
 
 def main():
-
-          
       app = wx.App()
 
       res = Resource("{'UID': '1', 'First Name': 'Brian', 'Last Name': 'Swift', 'Location': 'CHI'}")
-      mc = InputPanel(None, res)
+      mc = InputPanel(None, res, print_results)
 
       app.MainLoop()
 
-      app = InputPanel(root, ("first", "last"), print_results)
-      tdict = {"first" : "Brian", "last" : "Swift"}
-      app = InputPanel(root, ("first", "last"), print_results, "Swift, Brian", tdict)
-      root.mainloop()
-
-def print_results(tdict, listkey):
+def print_results(tdict):
       for i in tdict.keys():
             print i, tdict[i]
-
-
-
 
 if __name__ == '__main__':
       main()
