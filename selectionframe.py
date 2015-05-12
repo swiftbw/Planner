@@ -25,29 +25,19 @@ class SelectionFrame(wx.Frame):
             self._mainpanel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
 
             mainsizer = wx.BoxSizer(wx.VERTICAL)
-            listctrlsizer = wx.BoxSizer(wx.VERTICAL)
             buttonsizer = wx.BoxSizer(wx.HORIZONTAL)
 
             self._listctrl = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
 
-            for i in ress._resources:
-                  print i[Resource.uid]
-                  print i[Resource.firstName]
-                  print i[Resource.lastName]
-                  print i[Resource.location]
-                  print i[Resource.status]
-                  self._listctrl.Append(str(i[Resource.uid]))
-                  self._listctrl.Append(i[Resource.firstName])
-                  self._listctrl.Append(i[Resource.lastName])
-                  self._listctrl.Append(i[Resource.location])
-                  self._listctrl.Append(i[Resource.status])
-
             i = 0
             for key in reversed(ress.getDictKeys()):
                   self._listctrl.InsertColumn(i, key)
-
-            listctrlsizer.Add(self._listctrl)
-
+            
+            for i in ress._resources:
+                  print str(i)
+                  self._listctrl.Append((i[Resource.uid], i[Resource.firstName], i[Resource.lastName], i[Resource.location], i[Resource.status]))
+            
+            print "this far"
             ADD_BTN = wx.NewId()
             MODIFY_BTN = wx.NewId()
             DELETE_BTN = wx.NewId()
@@ -62,6 +52,7 @@ class SelectionFrame(wx.Frame):
             buttonsizer.Add(deletebtn)
             buttonsizer.Add(cancelbtn)
             
+            print "this far 2"
             self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.onUpdateSelection)
             
             self.Bind(wx.EVT_BUTTON, self.onAdd, id=ADD_BTN)
@@ -69,7 +60,7 @@ class SelectionFrame(wx.Frame):
             # self.Bind(wx.EVT_BUTTON, self.onDelete, id=DELETE_BTN)
             self.Bind(wx.EVT_BUTTON, self.onCancel, id=CANCEL_BTN)
 
-            mainsizer.Add(listctrlsizer)
+            mainsizer.Add(self._listctrl)
             mainsizer.AddSpacer(50)
             mainsizer.Add(buttonsizer)
             
