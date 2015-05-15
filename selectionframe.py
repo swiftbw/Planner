@@ -57,7 +57,7 @@ class SelectionFrame(wx.Frame):
             
             self.Bind(wx.EVT_BUTTON, self.onAdd, id=ADD_BTN)
             # self.Bind(wx.EVT_BUTTON, self.onModify, MODIFY_BTN)
-            # self.Bind(wx.EVT_BUTTON, self.onDelete, id=DELETE_BTN)
+            self.Bind(wx.EVT_BUTTON, self.onDelete, id=DELETE_BTN)
             self.Bind(wx.EVT_BUTTON, self.onCancel, id=CANCEL_BTN)
 
             mainsizer.Add(self._listctrl)
@@ -79,19 +79,10 @@ class SelectionFrame(wx.Frame):
             res = Resource(d)
             self._inputPanel = InputPanel(self, res, self.addCallBack)
 
-      """
-      def onDelete(self):
-            idx = self._lb.curselection()
+      def onDelete(self, event):
+            idx = self._listctrl.GetFocusedItem()
             self.deleteCallBack(idx)
 
-      def onModify(self):
-            ctr = self._lb.curselection()
-            key = self._lb.get(ctr)
-            print key
-            print self._objectList
-            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList._resources[key])
-            
-      """
       def onCancel(self, event):
             self.destroy()
 
@@ -108,8 +99,24 @@ class SelectionFrame(wx.Frame):
             #self._lb.update()
             # self._inputPanel.destroy()
 
-      '''            
+      def deleteCallBack(self, idx):
+            print "Delete"
+            print idx
+            key = self._listctrl.get(idx)
+            self._objectList.deleteElement(key)
+            self._listctrl.DeleteItem(idx)
 
+      """
+      def onDelete(self):
+            idx = self._lb.curselection()
+            self.deleteCallBack(idx)
+
+      def onModify(self):
+            ctr = self._lb.curselection()
+            key = self._lb.get(ctr)
+            print key
+            print self._objectList
+            self._inputPanel = InputPanel(self, self._objectList.getElementKeys(), self.modifyCallBack, key, self._objectList._resources[key])
 
       def modifyCallBack(self, cdict, key):
             print "Modify Existing Element"
@@ -120,16 +127,7 @@ class SelectionFrame(wx.Frame):
                   
             self._lb.update()
             # self._inputPanel.destroy()
-
-      def deleteCallBack(self, idx):
-            print "Delete"
-            print idx
-            key = self._lb.get(idx)
-            self._objectList.deleteElement(key)
-            self._lb.delete(idx)
-            self._lb.update()
-      '''
-
+      """
 
 def main():
       
